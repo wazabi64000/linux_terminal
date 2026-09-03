@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TP Linux Debian — Les 30 commandes essentielles</title>
+    <style>
+        :root {
+            --debian-red: #A80030;
+            --bg-color: #f4f6f9;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+            --code-bg: #1e1e1e;
+            --code-color: #4af626;
+            --border-color: #e0e0e0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        header {
+            background-color: var(--debian-red);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px;
+            margin-bottom: 25px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            border-left: 5px solid var(--debian-red);
+            padding-left: 10px;
+            color: var(--debian-red);
+            margin-top: 30px;
+        }
+
+        .command-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .command-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: var(--debian-red);
+            margin-bottom: 10px;
+        }
+
+        .example-box {
+            background-color: #f8f9fa;
+            border-left: 3px solid #6c757d;
+            padding: 10px 15px;
+            margin: 10px 0;
+            font-size: 0.95rem;
+        }
+
+        .exercise-box {
+            background-color: #eef7ff;
+            border: 1px dashed #0056b3;
+            border-radius: 6px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+
+        .exercise-box strong {
+            color: #0056b3;
+        }
+
+        button {
+            background-color: var(--debian-red);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        .solution {
+            display: none;
+            background-color: var(--code-bg);
+            color: var(--code-color);
+            font-family: 'Courier New', Courier, monospace;
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 10px;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Travaux Pratiques : Administration Linux Debian</h1>
+        <p>Maîtrisez les 30 commandes les plus importantes du système</p>
+    </header>
+
+    <div id="commands-list"></div>
+</div>
+
+<script>
+const commands = [
+    // 1. Navigation et Fichiers
+    {
+        cat: "1. Navigation et Gestion des Fichiers",
+        cmd: "pwd",
+        desc: "Affiche le chemin absolu du répertoire courant.",
+        ex: "pwd",
+        quest: "Affichez l'emplacement exact dans lequel vous vous trouvez actuellement dans l'arborescence."
+    },
+    {
+        cat: "1. Navigation et Gestion des Fichiers",
+        cmd: "ls",
+        desc: "Liste le contenu d'un répertoire. Utiliser -la pour voir les fichiers cachés et les détails.",
+        ex: "ls -la /var/log",
+        quest: "Lister tous les fichiers du dossier /etc, y compris les fichiers cachés, avec les permissions et tailles."
+    },
+    {
+        cat: "1. Navigation et Gestion des Fichiers",
+        cmd: "cd",
+        desc: "Permet de changer de répertoire.",
+        ex: "cd /etc/network",
+        quest: "Déplacez-vous directement dans le dossier personnel de l'utilisateur courant (home directory)."
+    },
+    {
+        cat: "1. Navigation et Gestion des Fichiers",
+        cmd: "mkdir",
+        desc: "Crée un nouveau répertoire. L'option -p crée les sous-dossiers parents si nécessaire.",
+        ex: "mkdir -p /tmp/test/sous_dossier",
+        quest: "Créez une arborescence de dossiers nommée 'projet/src/bin' en une seule commande dans votre dossier personnel."
+    },
+    {
+        cat: "1. Navigation et Gestion des Fichiers",
+        cmd: "touch",
+        desc: "Crée un fichier vide ou met à jour la date d'accès d'un fichier existant.",
+        ex: "touch /tmp/notes.txt",
+        quest: "Créez un fichier vide nommé 'config.conf' dans le dossier /tmp."
+    },
+    {
+        cat: "1. Navigation et Gestion des Fichiers",
+        cmd: "cp",
+        desc: "Copie des fichiers ou des répertoires (avec l'option -r).",
+        ex: "cp -r /dossier_source /dossier_destination",
+        quest: "Copiez le fichier '/etc/passwd' vers le dossier '/tmp' sous le nom 'passwd_backup'."
+    },
+    {
+        cat: "1. Navigation et Gestion des Fichiers",
+        cmd: "mv",
+        desc: "Déplace ou nomme à nouveau des fichiers ou répertoires.",
+        ex: "mv ancien_nom.txt nouveau_nom.txt",
+        quest: "Renommez le fichier '/tmp/passwd_backup' en '/tmp/utilisateurs.txt'."
+    },
+    {
+        cat: "1. Navigation et Gestion des Fichiers",
+        cmd: "rm",
+        desc: "Supprime des fichiers ou des répertoires (-r pour récursif, -f pour forcer).",
+        ex: "rm -rf /tmp/ancien_dossier",
+        quest: "Supprimez le fichier '/tmp/utilisateurs.txt' puis supprimez le dossier 'projet' créé précédemment et son contenu."
+    },
+
+    // 2. Lecture et Édition
+    {
+        cat: "2. Lecture et Édition de Fichiers",
+        cmd: "cat",
+        desc: "Affiche le contenu complet d'un fichier texte dans le terminal.",
+        ex: "cat /etc/debian_version",
+        quest: "Affichez la version exacte de votre distribution Debian enregistrée dans '/etc/debian_version'."
+    },
+    {
+        cat: "2. Lecture et Édition de Fichiers",
+        cmd: "less",
+        desc: "Permet de lire un fichier page par page (quitter avec 'q').",
+        ex: "less /var/log/syslog",
+        quest: "Ouvrez le fichier '/var/log/dpkg.log' pour consulter son contenu de manière interactive sans tout charger d'un coup."
+    },
+    {
+        cat: "2. Lecture et Édition de Fichiers",
+        cmd: "head / tail",
+        desc: "head affiche les premières lignes, tail les dernières. 'tail -f' suit un fichier en direct.",
+        ex: "tail -f -n 20 /var/log/auth.log",
+        quest: "Affichez en temps réel les 15 dernières lignes du fichier journal de système '/var/log/syslog'."
+    },
+    {
+        cat: "2. Lecture et Édition de Fichiers",
+        cmd: "nano",
+        desc: "Éditeur de texte simple et intuitif en ligne de commande.",
+        ex: "nano /etc/hosts",
+        quest: "Créez et éditez un fichier '/tmp/readme.txt' avec nano, inscrivez 'Serveur Debian Ok' et enregistrez."
+    },
+    {
+        cat: "2. Lecture et Édition de Fichiers",
+        cmd: "grep",
+        desc: "Recherche un motif de texte dans un fichier ou un flux.",
+        ex: "grep 'root' /etc/passwd",
+        quest: "Recherchez toutes les occurrences du mot 'dhcp' dans le fichier '/etc/network/interfaces'."
+    },
+    {
+        cat: "2. Lecture et Édition de Fichiers",
+        cmd: "find",
+        desc: "Recherche des fichiers selon des critères (nom, taille, date...).",
+        ex: "find /var/log -name '*.log'",
+        quest: "Trouvez tous les fichiers se terminant par '.conf' situés dans le répertoire '/etc'."
+    },
+
+    // 3. Droits et Utilisateurs
+    {
+        cat: "3. Droits, Utilisateurs et Privilèges",
+        cmd: "chmod",
+        desc: "Modifie les permissions d'accès d'un fichier ou répertoire.",
+        ex: "chmod 755 /script.sh",
+        quest: "Attribuez les droits d'exécution au propriétaire uniquement (ex: 700) sur un fichier '/tmp/script.sh'."
+    },
+    {
+        cat: "3. Droits, Utilisateurs et Privilèges",
+        cmd: "chown",
+        desc: "Modifie le propriétaire et le groupe d'un fichier ou dossier.",
+        ex: "chown www-data:www-data /var/www/html",
+        quest: "Changez le propriétaire du fichier '/tmp/notes.txt' pour lui attribuer l'utilisateur 'nobody'."
+    },
+    {
+        cat: "3. Droits, Utilisateurs et Privilèges",
+        cmd: "sudo / su",
+        desc: "su permet de changer d'utilisateur (ex: 'su -' pour root). sudo exécute une commande avec privilèges.",
+        ex: "sudo apt update",
+        quest: "Passez temporairement en superutilisateur (root) avec la commande 'su -' ou lancez 'sudo -i'."
+    },
+    {
+        cat: "3. Droits, Utilisateurs et Privilèges",
+        cmd: "adduser / userdel",
+        desc: "adduser crée un utilisateur de manière interactive. userdel le supprime.",
+        ex: "adduser stagiaire",
+        quest: "Créez un nouvel utilisateur nommé 'testuser', puis supprimez-le ainsi que son répertoire personnel (-r)."
+    },
+
+    // 4. Paquets et Logiciels
+    {
+        cat: "4. Gestion des Paquets (APT & DPKG)",
+        cmd: "apt update & apt upgrade",
+        desc: "update rafraîchit la liste des paquets disponibles. upgrade met à jour les logiciels installés.",
+        ex: "sudo apt update && sudo apt upgrade -y",
+        quest: "Mettez à jour le cache des paquets de votre système Debian sans installer les mises à jour."
+    },
+    {
+        cat: "4. Gestion des Paquets (APT & DPKG)",
+        cmd: "apt install / apt remove",
+        desc: "Install ou supprime un paquet logiciel sur Debian.",
+        ex: "sudo apt install curl",
+        quest: "Installez l'outil réseau 'curl' sur votre machine, puis vérifiez sa présence."
+    },
+    {
+        cat: "4. Gestion des Paquets (APT & DPKG)",
+        cmd: "dpkg",
+        desc: "Gestionnaire de paquets bas niveau pour installer des fichiers '.deb' locaux.",
+        ex: "dpkg -l | grep ssh",
+        quest: "Lister tous les paquets installés sur le système contenant le terme 'openssh'."
+    },
+
+    // 5. Réseau et Diagnostic
+    {
+        cat: "5. Réseau et Diagnostic",
+        cmd: "ip",
+        desc: "Remplace 'ifconfig'. Permet d'afficher/configurer les interfaces réseau et les routes.",
+        ex: "ip a",
+        quest: "Affichez l'adresse IP v4 et l'état de toutes les interfaces réseau actives."
+    },
+    {
+        cat: "5. Réseau et Diagnostic",
+        cmd: "ping",
+        desc: "Teste la connectivité réseau vers un hôte via le protocole ICMP.",
+        ex: "ping -c 4 debian.org",
+        quest: "Envoyez exactement 3 paquets réseau vers l'adresse '1.1.1.1' pour vérifier votre connexion Internet."
+    },
+    {
+        cat: "5. Réseau et Diagnostic",
+        cmd: "ss",
+        desc: "Remplace 'netstat'. Affiche les sockets et ports ouverts sur la machine.",
+        ex: "ss -tuln",
+        quest: "Affichez tous les ports TCP et UDP en écoute (listening) sous forme numérique sur le système."
+    },
+    {
+        cat: "5. Réseau et Diagnostic",
+        cmd: "curl / wget",
+        desc: "Outils de téléchargement de fichiers ou d'interaction avec des requêtes HTTP/FTP.",
+        ex: "wget https://www.debian.org/index.fr.html",
+        quest: "Téléchargez le code HTML de la page d'accueil de Google dans le dossier courant avec la commande 'wget'."
+    },
+
+    // 6. Système, Processus et Disque
+    {
+        cat: "6. Surveillance Système et Processus",
+        cmd: "ps",
+        desc: "Affiche un instantané des processus en cours d'exécution.",
+        ex: "ps aux | grep nginx",
+        quest: "Affichez la liste globale de tous les processus qui tournent sur la machine."
+    },
+    {
+        cat: "6. Surveillance Système et Processus",
+        cmd: "top / htop",
+        desc: "Moniteur de processus en temps réel (consommation CPU, RAM).",
+        ex: "htop",
+        quest: "Lancez l'outil 'top' pour identifier le processus qui consomme le plus de mémoire RAM actuellement."
+    },
+    {
+        cat: "6. Surveillance Système et Processus",
+        cmd: "kill / killall",
+        desc: "Envoie un signal pour arrêter un processus via son PID (kill) ou son nom (killall).",
+        ex: "kill -9 1234",
+        quest: "Forcez l'arrêt (Signal 9 / SIGKILL) d'un processus dont le PID est 4321."
+    },
+    {
+        cat: "6. Surveillance Système et Processus",
+        cmd: "df -h",
+        desc: "Affiche l'espace disque disponible sur les systèmes de fichiers en format lisible (Go, Mo).",
+        ex: "df -h",
+        quest: "Vérifiez l'espace disque restant sur la partition racine '/'"
+    },
+    {
+        cat: "6. Surveillance Système et Processus",
+        cmd: "systemctl",
+        desc: "Gère les services système (Systemd) : start, stop, restart, status, enable.",
+        ex: "systemctl status ssh",
+        quest: "Vérifiez le statut du service SSH sur le système pour savoir s'il est actif."
+    }
+];
+
+function renderTP() {
+    const container = document.getElementById('commands-list');
+    let currentCat = "";
+
+    commands.forEach((item, index) => {
+        if (item.cat !== currentCat) {
+            currentCat = item.cat;
+            const catHeader = document.createElement('h2');
+            catHeader.className = 'section-title';
+            catHeader.innerText = currentCat;
+            container.appendChild(catHeader);
+        }
+
+        const card = document.createElement('div');
+        card.className = 'command-card';
+        card.innerHTML = `
+            <div class="command-title">${index + 1}. Commande : <code>${item.cmd}</code></div>
+            <p><strong>Description :</strong> ${item.desc}</p>
+            <div class="example-box">
+                <strong>Exemple d'utilisation :</strong><br>
+                <code>${item.ex}</code>
+            </div>
+            <div class="exercise-box">
+                <strong>Exercice Pratique :</strong> ${item.quest}
+                <br>
+                <button onclick="toggleSolution(${index})">Voir la solution</button>
+                <div id="sol-${index}" class="solution">Solution suggérée :\n$ ${item.ex}</div>
+            </div>
+        `;
+        container.appendChild(card);
+    });
+}
+
+function toggleSolution(index) {
+    const solDiv = document.getElementById(`sol-${index}`);
+    if (solDiv.style.display === "block") {
+        solDiv.style.display = "none";
+    } else {
+        solDiv.style.display = "block";
+    }
+}
+
+// Initialisation au chargement
+window.onload = renderTP;
+</script>
+
+</body>
+</html>
