@@ -3,108 +3,117 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TP Linux Debian — Les 30 commandes essentielles</title>
+    <title>Masterclass Debian — 100 Commandes Progressives</title>
     <style>
         :root {
             --debian-red: #A80030;
-            --bg-color: #f4f6f9;
-            --card-bg: #ffffff;
-            --text-color: #333333;
-            --code-bg: #1e1e1e;
-            --code-color: #4af626;
-            --border-color: #e0e0e0;
+            --bg: #0d1117;
+            --card-bg: #161b22;
+            --border: #30363d;
+            --text: #c9d1d9;
+            --text-bright: #ffffff;
+            --accent: #58a6ff;
+            --code-bg: #010409;
+            --code-color: #7ee787;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.6;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
             margin: 0;
             padding: 20px;
         }
 
-        header {
-            background-color: var(--debian-red);
-            color: white;
-            padding: 20px;
-            text-align: center;
-            border-radius: 8px;
-            margin-bottom: 25px;
-        }
-
         .container {
-            max-width: 1000px;
+            max-width: 1100px;
             margin: 0 auto;
         }
 
-        .section-title {
-            border-left: 5px solid var(--debian-red);
-            padding-left: 10px;
-            color: var(--debian-red);
-            margin-top: 30px;
+        header {
+            text-align: center;
+            border-bottom: 2px solid var(--debian-red);
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+
+        h1 { color: var(--text-bright); margin-bottom: 5px; }
+        .subtitle { color: #8b949e; font-size: 1.1rem; }
+
+        .level-header {
+            background: linear-gradient(90deg, var(--debian-red), transparent);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 6px;
+            margin-top: 40px;
+            font-size: 1.3rem;
+            font-weight: bold;
         }
 
         .command-card {
             background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 15px 20px;
+            margin-top: 15px;
+            transition: border-color 0.2s;
         }
 
-        .command-title {
-            font-size: 1.25rem;
+        .command-card:hover {
+            border-color: var(--accent);
+        }
+
+        .cmd-title {
+            font-size: 1.1rem;
+            color: var(--accent);
+            font-family: monospace;
             font-weight: bold;
-            color: var(--debian-red);
-            margin-bottom: 10px;
         }
 
-        .example-box {
-            background-color: #f8f9fa;
-            border-left: 3px solid #6c757d;
-            padding: 10px 15px;
-            margin: 10px 0;
-            font-size: 0.95rem;
+        .cmd-desc { margin: 8px 0; }
+
+        .example-block {
+            background-color: var(--code-bg);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 8px 12px;
+            font-family: monospace;
+            color: var(--code-color);
+            font-size: 0.9rem;
+            overflow-x: auto;
         }
 
         .exercise-box {
-            background-color: #eef7ff;
-            border: 1px dashed #0056b3;
-            border-radius: 6px;
-            padding: 15px;
-            margin-top: 15px;
-        }
-
-        .exercise-box strong {
-            color: #0056b3;
+            background-color: rgba(56, 139, 253, 0.1);
+            border-left: 3px solid var(--accent);
+            padding: 10px 15px;
+            margin-top: 10px;
+            border-radius: 0 4px 4px 0;
         }
 
         button {
-            background-color: var(--debian-red);
-            color: white;
-            border: none;
-            padding: 8px 15px;
+            background-color: #21262d;
+            color: var(--text-bright);
+            border: 1px solid var(--border);
+            padding: 5px 12px;
             border-radius: 4px;
             cursor: pointer;
-            margin-top: 10px;
-            font-weight: bold;
+            margin-top: 8px;
+            font-size: 0.85rem;
         }
 
-        button:hover {
-            opacity: 0.9;
-        }
+        button:hover { background-color: #30363d; }
 
         .solution {
             display: none;
             background-color: var(--code-bg);
             color: var(--code-color);
-            font-family: 'Courier New', Courier, monospace;
-            padding: 10px;
+            font-family: monospace;
+            padding: 8px 12px;
             border-radius: 4px;
-            margin-top: 10px;
-            white-space: pre-wrap;
+            margin-top: 8px;
+            border: 1px solid var(--border);
         }
     </style>
 </head>
@@ -112,282 +121,161 @@
 
 <div class="container">
     <header>
-        <h1>Travaux Pratiques : Administration Linux Debian</h1>
-        <p>Maîtrisez les 30 commandes les plus importantes du système</p>
+        <h1>Linux Debian — Curriculum 100 Commandes</h1>
+        <div class="subtitle">Parcours d'apprentissage progressif (Niveau 1 Débutant à Niveau 5 Expert)</div>
     </header>
 
-    <div id="commands-list"></div>
+    <div id="tp-content"></div>
 </div>
 
 <script>
-const commands = [
-    // 1. Navigation et Fichiers
-    {
-        cat: "1. Navigation et Gestion des Fichiers",
-        cmd: "pwd",
-        desc: "Affiche le chemin absolu du répertoire courant.",
-        ex: "pwd",
-        quest: "Affichez l'emplacement exact dans lequel vous vous trouvez actuellement dans l'arborescence."
-    },
-    {
-        cat: "1. Navigation et Gestion des Fichiers",
-        cmd: "ls",
-        desc: "Liste le contenu d'un répertoire. Utiliser -la pour voir les fichiers cachés et les détails.",
-        ex: "ls -la /var/log",
-        quest: "Lister tous les fichiers du dossier /etc, y compris les fichiers cachés, avec les permissions et tailles."
-    },
-    {
-        cat: "1. Navigation et Gestion des Fichiers",
-        cmd: "cd",
-        desc: "Permet de changer de répertoire.",
-        ex: "cd /etc/network",
-        quest: "Déplacez-vous directement dans le dossier personnel de l'utilisateur courant (home directory)."
-    },
-    {
-        cat: "1. Navigation et Gestion des Fichiers",
-        cmd: "mkdir",
-        desc: "Crée un nouveau répertoire. L'option -p crée les sous-dossiers parents si nécessaire.",
-        ex: "mkdir -p /tmp/test/sous_dossier",
-        quest: "Créez une arborescence de dossiers nommée 'projet/src/bin' en une seule commande dans votre dossier personnel."
-    },
-    {
-        cat: "1. Navigation et Gestion des Fichiers",
-        cmd: "touch",
-        desc: "Crée un fichier vide ou met à jour la date d'accès d'un fichier existant.",
-        ex: "touch /tmp/notes.txt",
-        quest: "Créez un fichier vide nommé 'config.conf' dans le dossier /tmp."
-    },
-    {
-        cat: "1. Navigation et Gestion des Fichiers",
-        cmd: "cp",
-        desc: "Copie des fichiers ou des répertoires (avec l'option -r).",
-        ex: "cp -r /dossier_source /dossier_destination",
-        quest: "Copiez le fichier '/etc/passwd' vers le dossier '/tmp' sous le nom 'passwd_backup'."
-    },
-    {
-        cat: "1. Navigation et Gestion des Fichiers",
-        cmd: "mv",
-        desc: "Déplace ou nomme à nouveau des fichiers ou répertoires.",
-        ex: "mv ancien_nom.txt nouveau_nom.txt",
-        quest: "Renommez le fichier '/tmp/passwd_backup' en '/tmp/utilisateurs.txt'."
-    },
-    {
-        cat: "1. Navigation et Gestion des Fichiers",
-        cmd: "rm",
-        desc: "Supprime des fichiers ou des répertoires (-r pour récursif, -f pour forcer).",
-        ex: "rm -rf /tmp/ancien_dossier",
-        quest: "Supprimez le fichier '/tmp/utilisateurs.txt' puis supprimez le dossier 'projet' créé précédemment et son contenu."
-    },
+const dataset = [
+    // --- NIVEAU 1 : LES FONDATIONS (1-20) ---
+    { lvl: "Niveau 1 : Les Fondations & Navigation (1 à 20)", cmd: "pwd", desc: "Affiche le dossier courant.", ex: "pwd", q: "Affichez votre emplacement exact dans l'arborescence." },
+    { lvl: "Niveau 1 : Les Fondations & Navigation (1 à 20)", cmd: "ls", desc: "Lister le contenu d'un répertoire.", ex: "ls -la /var", q: "Listez tous les fichiers cachés du dossier /home." },
+    { lvl: "Niveau 1 : Les Fondations & Navigation (1 à 20)", cmd: "cd", desc: "Changer de répertoire.", ex: "cd /etc/network", q: "Revenez directement dans votre dossier personnel (home)." },
+    { lvl: "Niveau 1 : Les Fondations & Navigation (1 à 20)", cmd: "mkdir", desc: "Créer un dossier.", ex: "mkdir -p /tmp/test/doc", q: "Créez l'arborescence 'lab/exercice' en une seule commande." },
+    { lvl: "Niveau 1 : Les Fondations & Navigation (1 à 20)", cmd: "touch", desc: "Créer un fichier vide.", ex: "touch fichier.txt", q: "Créez un fichier vide nommé 'rapport.log' dans /tmp." },
+    { lvl: "Niveau 1 : Les Fondations & Navigation (1 à 20)", cmd: "cp", desc: "Copier des fichiers/dossiers.", ex: "cp -r src/ dst/", q: "Copiez le fichier /etc/hosts vers votre dossier courant." },
+    { lvl: "Niveau 1 : Les Fondations & Navigation (1 à 20)", cmd: "mv", desc: "Déplacer ou renommer.", ex: "mv f1.txt f2.txt", q: "Renommez 'rapport.log' en 'rapport_old.log'." },
+    { lvl: "Niveau 1 : Les Fondations & Navigation (1 à 20)", cmd: "rm", desc: "Supprimer des fichiers/dossiers.", ex: "rm -rf /tmp/dossier", q: "Supprimez le fichier 'rapport_old.log' sans confirmation." },
+    { lvl: "Niveau 1 : Les Fondations & Navigation (1 à 20)", cmd: "clear", desc: "Effacer le terminal.", ex: "clear", q: "Nettoyez l'affichage de votre console." },
+    { lvl: "Niveau 1 : Les Fondations & Navigation (1 à 20)", cmd: "cat", desc: "Afficher tout le contenu d'un fichier.", ex: "cat /etc/debian_version", q: "Affichez la version de Debian contenue dans /etc/debian_version." },
+    { lvl: "Niveau 1 : Les Fondations & Navigation (1 à 20)", cmd: "echo", desc: "Affiche du texte ou écrit dans un fichier.", ex: "echo 'Hello' > test.txt", q: "Écrivez la chaîne 'Serveur Prod' dans un fichier status.txt." },
+    { lvl: "Niveau 1 : Les Fondations & Navigation (1 à 20)", cmd: "whoami", desc: "Afficher l'utilisateur actuel.", ex: "whoami", q: "Vérifiez quel nom d'utilisateur vous exécutez." },
+    { lvl: "Niveau 1 : Les Fondations & Navigation (1 à 20)", cmd: "hostname", desc: "Affiche ou définit le nom de la machine.", ex: "hostname -I", q: "Affichez le nom d'hôte de la machine actuelle." },
+    { lvl: "Niveau 1 : Les Fondations & Navigation (1 à 20)", cmd: "date", desc: "Affiche ou règle la date/heure.", ex: "date '+%Y-%m-%d'", q: "Affichez la date actuelle au format Année-Mois-Jour." },
+    { lvl: "Niveau 1 : Les Fondations & Navigation (1 à 20)", cmd: "uptime", desc: "Temps de fonctionnement du système.", ex: "uptime", q: "Consultez depuis combien de temps le serveur tourne." },
+    { lvl: "Niveau 1 : Les Fondations & Navigation (1 à 20)", cmd: "history", desc: "Historique des commandes exécutées.", ex: "history | tail -n 10", q: "Affichez les 10 dernières commandes saisies dans la console." },
+    { lvl: "Niveau 1 : Les Fondations & Navigation (1 à 20)", cmd: "man", desc: "Manuel d'utilisation d'une commande.", ex: "man ls", q: "Ouvrez la page de manuel de la commande 'chown'." },
+    { lvl: "Niveau 1 : Les Fondations & Navigation (1 à 20)", cmd: "alias", desc: "Créer un raccourci de commande.", ex: "alias ll='ls -la'", q: "Créez un alias 'c' qui exécute la commande 'clear'." },
+    { lvl: "Niveau 1 : Les Fondations & Navigation (1 à 20)", cmd: "exit", desc: "Fermer la session actuelle.", ex: "exit", q: "Quittez le terminal ou la session SSH en cours." },
+    { lvl: "Niveau 1 : Les Fondations & Navigation (1 à 20)", cmd: "nano", desc: "Éditeur de texte simple.", ex: "nano /etc/motd", q: "Ouvrez le fichier /tmp/notes.txt avec Nano." },
 
-    // 2. Lecture et Édition
-    {
-        cat: "2. Lecture et Édition de Fichiers",
-        cmd: "cat",
-        desc: "Affiche le contenu complet d'un fichier texte dans le terminal.",
-        ex: "cat /etc/debian_version",
-        quest: "Affichez la version exacte de votre distribution Debian enregistrée dans '/etc/debian_version'."
-    },
-    {
-        cat: "2. Lecture et Édition de Fichiers",
-        cmd: "less",
-        desc: "Permet de lire un fichier page par page (quitter avec 'q').",
-        ex: "less /var/log/syslog",
-        quest: "Ouvrez le fichier '/var/log/dpkg.log' pour consulter son contenu de manière interactive sans tout charger d'un coup."
-    },
-    {
-        cat: "2. Lecture et Édition de Fichiers",
-        cmd: "head / tail",
-        desc: "head affiche les premières lignes, tail les dernières. 'tail -f' suit un fichier en direct.",
-        ex: "tail -f -n 20 /var/log/auth.log",
-        quest: "Affichez en temps réel les 15 dernières lignes du fichier journal de système '/var/log/syslog'."
-    },
-    {
-        cat: "2. Lecture et Édition de Fichiers",
-        cmd: "nano",
-        desc: "Éditeur de texte simple et intuitif en ligne de commande.",
-        ex: "nano /etc/hosts",
-        quest: "Créez et éditez un fichier '/tmp/readme.txt' avec nano, inscrivez 'Serveur Debian Ok' et enregistrez."
-    },
-    {
-        cat: "2. Lecture et Édition de Fichiers",
-        cmd: "grep",
-        desc: "Recherche un motif de texte dans un fichier ou un flux.",
-        ex: "grep 'root' /etc/passwd",
-        quest: "Recherchez toutes les occurrences du mot 'dhcp' dans le fichier '/etc/network/interfaces'."
-    },
-    {
-        cat: "2. Lecture et Édition de Fichiers",
-        cmd: "find",
-        desc: "Recherche des fichiers selon des critères (nom, taille, date...).",
-        ex: "find /var/log -name '*.log'",
-        quest: "Trouvez tous les fichiers se terminant par '.conf' situés dans le répertoire '/etc'."
-    },
+    // --- NIVEAU 2 : CONSULTATION, RECHERCHE & DROITS (21-40) ---
+    { lvl: "Niveau 2 : Lecture, Inspection & Permissions (21 à 40)", cmd: "head", desc: "Affiche le début d'un fichier.", ex: "head -n 5 /etc/passwd", q: "Affichez les 5 premières lignes de /etc/passwd." },
+    { lvl: "Niveau 2 : Lecture, Inspection & Permissions (21 à 40)", cmd: "tail", desc: "Affiche la fin d'un fichier.", ex: "tail -f /var/log/syslog", q: "Suivez en temps réel les nouvelles lignes de /var/log/syslog." },
+    { lvl: "Niveau 2 : Lecture, Inspection & Permissions (21 à 40)", cmd: "less", desc: "Lecture interactive d'un fichier.", ex: "less /var/log/dpkg.log", q: "Ouvrez un fichier volumineux avec less pour y naviguer." },
+    { lvl: "Niveau 2 : Lecture, Inspection & Permissions (21 à 40)", cmd: "grep", desc: "Rechercher du texte.", ex: "grep 'root' /etc/passwd", q: "Trouvez l'utilisateur 'nobody' dans /etc/passwd." },
+    { lvl: "Niveau 2 : Lecture, Inspection & Permissions (21 à 40)", cmd: "wc", desc: "Compter lignes, mots, octets.", ex: "wc -l /etc/passwd", q: "Comptez le nombre total d'utilisateurs déclarés dans /etc/passwd." },
+    { lvl: "Niveau 2 : Lecture, Inspection & Permissions (21 à 40)", cmd: "find", desc: "Recherche de fichiers par critères.", ex: "find /etc -name '*.conf'", q: "Trouvez tous les fichiers nommés 'interfaces' sous /etc." },
+    { lvl: "Niveau 2 : Lecture, Inspection & Permissions (21 à 40)", cmd: "which", desc: "Trouver l'emplacement d'un exécutable.", ex: "which python3", q: "Affichez le chemin absolu de la commande 'bash'." },
+    { lvl: "Niveau 2 : Lecture, Inspection & Permissions (21 à 40)", cmd: "chmod", desc: "Modifier les autorisations.", ex: "chmod 755 script.sh", q: "Rendez le fichier /tmp/script.sh exécutable pour tout le monde." },
+    { lvl: "Niveau 2 : Lecture, Inspection & Permissions (21 à 40)", cmd: "chown", desc: "Modifier propriétaire/groupe.", ex: "chown user:group file", q: "Attribuez la propriété du fichier /tmp/test à 'www-data'." },
+    { lvl: "Niveau 2 : Lecture, Inspection & Permissions (21 à 40)", cmd: "sudo", desc: "Exécuter une commande en superutilisateur.", ex: "sudo apt update", q: "Exécutez l'imprimante système d'administration via sudo." },
+    { lvl: "Niveau 2 : Lecture, Inspection & Permissions (21 à 40)", cmd: "su", desc: "Changer d'identité d'utilisateur.", ex: "su - root", q: "Basculez complètement sur la session de l'utilisateur root." },
+    { lvl: "Niveau 2 : Lecture, Inspection & Permissions (21 à 40)", cmd: "df", desc: "Espace disque des fichiers systèmes.", ex: "df -h", q: "Consultez le pourcentage d'occupation de la partition principale en format lisible (Go)." },
+    { lvl: "Niveau 2 : Lecture, Inspection & Permissions (21 à 40)", cmd: "du", desc: "Taille occupée par un dossier.", ex: "du -sh /var/log", q: "Affichez la taille globale occupée par le dossier /var/log." },
+    { lvl: "Niveau 2 : Lecture, Inspection & Permissions (21 à 40)", cmd: "free", desc: "Utilisation de la RAM / Swap.", ex: "free -m", q: "Affichez la quantité de mémoire RAM disponible en Mo." },
+    { lvl: "Niveau 2 : Lecture, Inspection & Permissions (21 à 40)", cmd: "ln", desc: "Créer des liens symboliques ou durs.", ex: "ln -s /etc/nginx/sites-avail/app /etc/nginx/sites-en/", q: "Créez un lien symbolique de /etc/issue vers /tmp/issue_link." },
+    { lvl: "Niveau 2 : Lecture, Inspection & Permissions (21 à 40)", cmd: "tar", desc: "Archiver des fichiers.", ex: "tar -czvf archive.tar.gz /folder", q: "Compresser le dossier /etc au format tar.gz dans /tmp." },
+    { lvl: "Niveau 2 : Lecture, Inspection & Permissions (21 à 40)", cmd: "gzip / gunzip", desc: "Compresser / Décompresser des fichiers.", ex: "gzip fichier.txt", q: "Compresser directement le fichier /tmp/test.txt." },
+    { lvl: "Niveau 2 : Lecture, Inspection & Permissions (21 à 40)", cmd: "diff", desc: "Comparer deux fichiers ligne par ligne.", ex: "diff f1.txt f2.txt", q: "Comparez le contenu du fichier f1 avec le fichier f2." },
+    { lvl: "Niveau 2 : Lecture, Inspection & Permissions (21 à 40)", cmd: "sort", desc: "Trier les lignes d'un fichier texte.", ex: "sort /etc/passwd", q: "Affichez la liste triée par ordre alphabétique du fichier /etc/passwd." },
+    { lvl: "Niveau 2 : Lecture, Inspection & Permissions (21 à 40)", cmd: "uniq", desc: "Filtrer ou rapporter les lignes dupliquées.", ex: "sort log.txt | uniq -c", q: "Comptez les occurrences uniques des lignes triées dans un fichier log." },
 
-    // 3. Droits et Utilisateurs
-    {
-        cat: "3. Droits, Utilisateurs et Privilèges",
-        cmd: "chmod",
-        desc: "Modifie les permissions d'accès d'un fichier ou répertoire.",
-        ex: "chmod 755 /script.sh",
-        quest: "Attribuez les droits d'exécution au propriétaire uniquement (ex: 700) sur un fichier '/tmp/script.sh'."
-    },
-    {
-        cat: "3. Droits, Utilisateurs et Privilèges",
-        cmd: "chown",
-        desc: "Modifie le propriétaire et le groupe d'un fichier ou dossier.",
-        ex: "chown www-data:www-data /var/www/html",
-        quest: "Changez le propriétaire du fichier '/tmp/notes.txt' pour lui attribuer l'utilisateur 'nobody'."
-    },
-    {
-        cat: "3. Droits, Utilisateurs et Privilèges",
-        cmd: "sudo / su",
-        desc: "su permet de changer d'utilisateur (ex: 'su -' pour root). sudo exécute une commande avec privilèges.",
-        ex: "sudo apt update",
-        quest: "Passez temporairement en superutilisateur (root) avec la commande 'su -' ou lancez 'sudo -i'."
-    },
-    {
-        cat: "3. Droits, Utilisateurs et Privilèges",
-        cmd: "adduser / userdel",
-        desc: "adduser crée un utilisateur de manière interactive. userdel le supprime.",
-        ex: "adduser stagiaire",
-        quest: "Créez un nouvel utilisateur nommé 'testuser', puis supprimez-le ainsi que son répertoire personnel (-r)."
-    },
+    // --- NIVEAU 3 : GESTION SYSTÈME, PROCESSUS & PAQUETS (41-60) ---
+    { lvl: "Niveau 3 : Administration Système & Gestion des Paquets (41 à 60)", cmd: "apt update", desc: "Mettre à jour le catalogue des paquets.", ex: "apt update", q: "Rafraîchissez la liste des paquets disponibles sous Debian." },
+    { lvl: "Niveau 3 : Administration Système & Gestion des Paquets (41 à 60)", cmd: "apt upgrade", desc: "Mettre à jour les logiciels installés.", ex: "apt upgrade -y", q: "Installez toutes les mises à jour de sécurité disponibles." },
+    { lvl: "Niveau 3 : Administration Système & Gestion des Paquets (41 à 60)", cmd: "apt install", desc: "Installer un paquet.", ex: "apt install htop", q: "Installez l'outil de surveillance 'htop'." },
+    { lvl: "Niveau 3 : Administration Système & Gestion des Paquets (41 à 60)", cmd: "apt remove / purge", desc: "Désinstaller un paquet.", ex: "apt purge nginx", q: "Supprimez le logiciel 'nginx' avec l'ensemble de ses fichiers de configuration." },
+    { lvl: "Niveau 3 : Administration Système & Gestion des Paquets (41 à 60)", cmd: "dpkg", desc: "Gestionnaire de paquets bas niveau.", ex: "dpkg -i paquet.deb", q: "Inspectez la liste des paquets installés contenant le mot 'ssh'." },
+    { lvl: "Niveau 3 : Administration Système & Gestion des Paquets (41 à 60)", cmd: "ps", desc: "Rapporter l'état des processus actuels.", ex: "ps aux", q: "Affichez la liste exhaustive de tous les processus du système." },
+    { lvl: "Niveau 3 : Administration Système & Gestion des Paquets (41 à 60)", cmd: "top", desc: "Affichage dynamique des processus système.", ex: "top", q: "Ouvrez l'outil de monitoring standard des processus." },
+    { lvl: "Niveau 3 : Administration Système & Gestion des Paquets (41 à 60)", cmd: "htop", desc: "Alternative moderne et interactive à top.", ex: "htop", q: "Lancez htop pour surveiller visuellement la mémoire et les cœurs CPU." },
+    { lvl: "Niveau 3 : Administration Système & Gestion des Paquets (41 à 60)", cmd: "kill", desc: "Envoyer un signal à un processus via son PID.", ex: "kill -9 1234", q: "Arrêtez proprement un processus ayant le PID 1050." },
+    { lvl: "Niveau 3 : Administration Système & Gestion des Paquets (41 à 60)", cmd: "killall", desc: "Tuer des processus par leur nom.", ex: "killall apache2", q: "Tuez toutes les instances en cours d'exécution du serveur web Apache." },
+    { lvl: "Niveau 3 : Administration Système & Gestion des Paquets (41 à 60)", cmd: "systemctl", desc: "Contrôler les services Systemd.", ex: "systemctl status ssh", q: "Vérifiez l'état de fonctionnement du service SSH." },
+    { lvl: "Niveau 3 : Administration Système & Gestion des Paquets (41 à 60)", cmd: "journalctl", desc: "Consulter les journaux de Systemd.", ex: "journalctl -u ssh -n 20", q: "Consultez les 20 dernières lignes du journal du service SSH." },
+    { lvl: "Niveau 3 : Administration Système & Gestion des Paquets (41 à 60)", cmd: "adduser / useradd", desc: "Créer un nouvel utilisateur.", ex: "adduser nouveau_dev", q: "Créez l'utilisateur 'développeur' de manière interactive." },
+    { lvl: "Niveau 3 : Administration Système & Gestion des Paquets (41 à 60)", cmd: "usermod", desc: "Modifier un compte utilisateur.", ex: "usermod -aG sudo dev", q: "Ajoutez l'utilisateur 'dev' au groupe privilégié 'sudo'." },
+    { lvl: "Niveau 3 : Administration Système & Gestion des Paquets (41 à 60)", cmd: "userdel", desc: "Supprimer un compte utilisateur.", ex: "userdel -r dev", q: "Supprimez le compte utilisateur 'test' ainsi que son dossier /home." },
+    { lvl: "Niveau 3 : Administration Système & Gestion des Paquets (41 à 60)", cmd: "passwd", desc: "Changer le mot de passe d'un utilisateur.", ex: "passwd dev", q: "Changez le mot de passe du compte utilisateur actif." },
+    { lvl: "Niveau 3 : Administration Système & Gestion des Paquets (41 à 60)", cmd: "groupadd", desc: "Créer un nouveau groupe système.", ex: "groupadd sysadmin", q: "Créez un groupe nommé 'sysadmin'." },
+    { lvl: "Niveau 3 : Administration Système & Gestion des Paquets (41 à 60)", cmd: "crontab", desc: "Planifier des tâches récurrentes.", ex: "crontab -e", q: "Ouvrez l'éditeur pour planifier une tâche automatique." },
+    { lvl: "Niveau 3 : Administration Système & Gestion des Paquets (41 à 60)", cmd: "reboot", desc: "Redémarrer le serveur.", ex: "reboot", q: "Relancez le système immédiatement." },
+    { lvl: "Niveau 3 : Administration Système & Gestion des Paquets (41 à 60)", cmd: "shutdown", desc: "Éteindre ou programmer l'arrêt.", ex: "shutdown -h now", q: "Arrêtez la machine à une heure précise ou immédiatement." },
 
-    // 4. Paquets et Logiciels
-    {
-        cat: "4. Gestion des Paquets (APT & DPKG)",
-        cmd: "apt update & apt upgrade",
-        desc: "update rafraîchit la liste des paquets disponibles. upgrade met à jour les logiciels installés.",
-        ex: "sudo apt update && sudo apt upgrade -y",
-        quest: "Mettez à jour le cache des paquets de votre système Debian sans installer les mises à jour."
-    },
-    {
-        cat: "4. Gestion des Paquets (APT & DPKG)",
-        cmd: "apt install / apt remove",
-        desc: "Install ou supprime un paquet logiciel sur Debian.",
-        ex: "sudo apt install curl",
-        quest: "Installez l'outil réseau 'curl' sur votre machine, puis vérifiez sa présence."
-    },
-    {
-        cat: "4. Gestion des Paquets (APT & DPKG)",
-        cmd: "dpkg",
-        desc: "Gestionnaire de paquets bas niveau pour installer des fichiers '.deb' locaux.",
-        ex: "dpkg -l | grep ssh",
-        quest: "Lister tous les paquets installés sur le système contenant le terme 'openssh'."
-    },
+    // --- NIVEAU 4 : RÉSEAU, FLUX & SÉCURITÉ (61-80) ---
+    { lvl: "Niveau 4 : Réseau, Flux & Sécurité (61 à 80)", cmd: "ip a", desc: "Affiche les adresses IP et interfaces.", ex: "ip a", q: "Identifiez l'adresse IP globale de votre interface principale." },
+    { lvl: "Niveau 4 : Réseau, Flux & Sécurité (61 à 80)", cmd: "ip route", desc: "Afficher la table de routage.", ex: "ip route", q: "Trouvez l'adresse IP de votre passerelle par défaut (gateway)." },
+    { lvl: "Niveau 4 : Réseau, Flux & Sécurité (61 à 80)", cmd: "ping", desc: "Tester la connectivité réseau.", ex: "ping -c 4 8.8.8.8", q: "Envoyez 4 pings vers le DNS Google pour valider la sortie Internet." },
+    { lvl: "Niveau 4 : Réseau, Flux & Sécurité (61 à 80)", cmd: "ss", desc: "Inspecter les sockets et ports ouverts.", ex: "ss -tuln", q: "Affichez la liste complète de tous les ports TCP en écoute." },
+    { lvl: "Niveau 4 : Réseau, Flux & Sécurité (61 à 80)", cmd: "netstat", desc: "Outil traditionnel de métriques réseau.", ex: "netstat -plant", q: "Listez les connexions actives et le PID des applications associées." },
+    { lvl: "Niveau 4 : Réseau, Flux & Sécurité (61 à 80)", cmd: "traceroute", desc: "Pistage des sauts de paquets vers un hôte.", ex: "traceroute debian.org", q: "Tracez la route réseau complète entre votre serveur et debian.org." },
+    { lvl: "Niveau 4 : Réseau, Flux & Sécurité (61 à 80)", cmd: "nslookup / dig", desc: "Interroger les serveurs de noms (DNS).", ex: "dig debian.org", q: "Effectuez une requête DNS pour obtenir l'adresse IP associée à un nom de domaine." },
+    { lvl: "Niveau 4 : Réseau, Flux & Sécurité (61 à 80)", cmd: "curl", desc: "Transférer des données via des URL.", ex: "curl -I https://debian.org", q: "Affichez uniquement l'en-tête HTTP d'une adresse web externe." },
+    { lvl: "Niveau 4 : Réseau, Flux & Sécurité (61 à 80)", cmd: "wget", desc: "Téléchargeur de fichiers non interactif.", ex: "wget https://example.com/file.zip", q: "Téléchargez un fichier distant et enregistrez-le dans le dossier /tmp." },
+    { lvl: "Niveau 4 : Réseau, Flux & Sécurité (61 à 80)", cmd: "ssh", desc: "Client de connexion sécurisée à distance.", ex: "ssh user@192.168.1.50", q: "Connectez-vous à une machine distante via le protocole SSH." },
+    { lvl: "Niveau 4 : Réseau, Flux & Sécurité (61 à 80)", cmd: "scp", desc: "Copie de fichiers via SSH.", ex: "scp local.txt user@remote:/tmp/", q: "Envoyez un fichier vers un serveur distant de manière sécurisée." },
+    { lvl: "Niveau 4 : Réseau, Flux & Sécurité (61 à 80)", cmd: "rsync", desc: "Synchronisation rapide et intelligente de fichiers.", ex: "rsync -avz /src/ /dst/", q: "Synchronisez deux dossiers locaux en affichant l'avancement." },
+    { lvl: "Niveau 4 : Réseau, Flux & Sécurité (61 à 80)", cmd: "ufw", desc: "Pare-feu simplifié sous Linux.", ex: "ufw allow 80/tcp", q: "Autorisez le trafic entrant sur le port 80 HTTP via le pare-feu UFW." },
+    { lvl: "Niveau 4 : Réseau, Flux & Sécurité (61 à 80)", cmd: "iptables", desc: "Administration du pare-feu Kernel.", ex: "iptables -L -n -v", q: "Listez les règles de filtrage réseau actuellement actives." },
+    { lvl: "Niveau 4 : Réseau, Flux & Sécurité (61 à 80)", cmd: "tcpdump", desc: "Analyseur de paquets réseau en ligne de commande.", ex: "tcpdump -i eth0 port 80", q: "Capturez le trafic passant sur l'interface eth0 pour le port 80." },
+    { lvl: "Niveau 4 : Réseau, Flux & Sécurité (61 à 80)", cmd: "hostnamectl", desc: "Configuration du nom d'hôte de la machine.", ex: "hostnamectl set-hostname debian-srv", q: "Définissez définitivement le nom d'hôte en 'debian-prod'." },
+    { lvl: "Niveau 4 : Réseau, Flux & Sécurité (61 à 80)", cmd: "nc (netcat)", desc: "Lecture et écriture dans des connexions réseau.", ex: "nc -zv 192.168.1.1 22", q: "Scannez si le port 22 d'un serveur distant est ouvert." },
+    { lvl: "Niveau 4 : Réseau, Flux & Sécurité (61 à 80)", cmd: "ssh-keygen", desc: "Génération de paires de clés d'authentification SSH.", ex: "ssh-keygen -t ed25519", q: "Générez une clé SSH sécurisée ED25519." },
+    { lvl: "Niveau 4 : Réseau, Flux & Sécurité (61 à 80)", cmd: "ssh-copy-id", desc: "Installer une clé publique sur un serveur distant.", ex: "ssh-copy-id user@remote", q: "Copiez votre clé SSH sur un serveur distant pour vous connecter sans mot de passe." },
+    { lvl: "Niveau 4 : Réseau, Flux & Sécurité (61 à 80)", cmd: "fail2ban-client", desc: "Outil de protection contre les attaques par force brute.", ex: "fail2ban-client status", q: "Affichez l'état des jails Fail2ban et les adresses IP bannies." },
 
-    // 5. Réseau et Diagnostic
-    {
-        cat: "5. Réseau et Diagnostic",
-        cmd: "ip",
-        desc: "Remplace 'ifconfig'. Permet d'afficher/configurer les interfaces réseau et les routes.",
-        ex: "ip a",
-        quest: "Affichez l'adresse IP v4 et l'état de toutes les interfaces réseau actives."
-    },
-    {
-        cat: "5. Réseau et Diagnostic",
-        cmd: "ping",
-        desc: "Teste la connectivité réseau vers un hôte via le protocole ICMP.",
-        ex: "ping -c 4 debian.org",
-        quest: "Envoyez exactement 3 paquets réseau vers l'adresse '1.1.1.1' pour vérifier votre connexion Internet."
-    },
-    {
-        cat: "5. Réseau et Diagnostic",
-        cmd: "ss",
-        desc: "Remplace 'netstat'. Affiche les sockets et ports ouverts sur la machine.",
-        ex: "ss -tuln",
-        quest: "Affichez tous les ports TCP et UDP en écoute (listening) sous forme numérique sur le système."
-    },
-    {
-        cat: "5. Réseau et Diagnostic",
-        cmd: "curl / wget",
-        desc: "Outils de téléchargement de fichiers ou d'interaction avec des requêtes HTTP/FTP.",
-        ex: "wget https://www.debian.org/index.fr.html",
-        quest: "Téléchargez le code HTML de la page d'accueil de Google dans le dossier courant avec la commande 'wget'."
-    },
-
-    // 6. Système, Processus et Disque
-    {
-        cat: "6. Surveillance Système et Processus",
-        cmd: "ps",
-        desc: "Affiche un instantané des processus en cours d'exécution.",
-        ex: "ps aux | grep nginx",
-        quest: "Affichez la liste globale de tous les processus qui tournent sur la machine."
-    },
-    {
-        cat: "6. Surveillance Système et Processus",
-        cmd: "top / htop",
-        desc: "Moniteur de processus en temps réel (consommation CPU, RAM).",
-        ex: "htop",
-        quest: "Lancez l'outil 'top' pour identifier le processus qui consomme le plus de mémoire RAM actuellement."
-    },
-    {
-        cat: "6. Surveillance Système et Processus",
-        cmd: "kill / killall",
-        desc: "Envoie un signal pour arrêter un processus via son PID (kill) ou son nom (killall).",
-        ex: "kill -9 1234",
-        quest: "Forcez l'arrêt (Signal 9 / SIGKILL) d'un processus dont le PID est 4321."
-    },
-    {
-        cat: "6. Surveillance Système et Processus",
-        cmd: "df -h",
-        desc: "Affiche l'espace disque disponible sur les systèmes de fichiers en format lisible (Go, Mo).",
-        ex: "df -h",
-        quest: "Vérifiez l'espace disque restant sur la partition racine '/'"
-    },
-    {
-        cat: "6. Surveillance Système et Processus",
-        cmd: "systemctl",
-        desc: "Gère les services système (Systemd) : start, stop, restart, status, enable.",
-        ex: "systemctl status ssh",
-        quest: "Vérifiez le statut du service SSH sur le système pour savoir s'il est actif."
-    }
+    // --- NIVEAU 5 : AVANCÉ, STOCKAGE & KERNEL (81-100) ---
+    { lvl: "Niveau 5 : Stockage, Traitement Avancé & Kernel (81 à 100)", cmd: "sed", desc: "Éditeur de flux pour filtrer/modifier du texte.", ex: "sed -i 's/old/new/g' file.txt", q: "Remplacez le mot 'démo' par 'production' dans un fichier texte." },
+    { lvl: "Niveau 5 : Stockage, Traitement Avancé & Kernel (81 à 100)", cmd: "awk", desc: "Langage de traitement de texte et extraction.", ex: "awk -F':' '{print $1}' /etc/passwd", q: "Extraire uniquement la première colonne (noms d'utilisateurs) de /etc/passwd." },
+    { lvl: "Niveau 5 : Stockage, Traitement Avancé & Kernel (81 à 100)", cmd: "cut", desc: "Supprimer des sections de chaque ligne de fichiers.", ex: "cut -d':' -f1 /etc/passwd", q: "Extrayez les répertoires personnels (colonne 6) du fichier /etc/passwd." },
+    { lvl: "Niveau 5 : Stockage, Traitement Avancé & Kernel (81 à 100)", cmd: "xargs", desc: "Construire des commandes à partir de l'entrée standard.", ex: "find . -name '*.tmp' | xargs rm", q: "Trouvez tous les fichiers .log dans /tmp et supprimez-les via xargs." },
+    { lvl: "Niveau 5 : Stockage, Traitement Avancé & Kernel (81 à 100)", cmd: "tee", desc: "Lire depuis l'entrée standard et écrire sur la sortie et des fichiers.", ex: "echo 'test' | tee file.txt", q: "Envoyez la sortie d'une commande à la fois à l'écran et dans un fichier log." },
+    { lvl: "Niveau 5 : Stockage, Traitement Avancé & Kernel (81 à 100)", cmd: "fdisk / cfdisk", desc: "Gestionnaire de tables de partitions de disque.", ex: "fdisk -l", q: "Affichez la table de partitionnement de tous les disques durs branchés." },
+    { lvl: "Niveau 5 : Stockage, Traitement Avancé & Kernel (81 à 100)", cmd: "mkfs", desc: "Créer un système de fichiers (Formater).", ex: "mkfs.ext4 /dev/sdb1", q: "Formatez la partition /dev/sdb1 avec le système de fichier EXT4." },
+    { lvl: "Niveau 5 : Stockage, Traitement Avancé & Kernel (81 à 100)", cmd: "mount / umount", desc: "Monter ou démonter un système de fichiers.", ex: "mount /dev/sdb1 /mnt/data", q: "Montez la partition /dev/sdb1 dans le point de montage /mnt." },
+    { lvl: "Niveau 5 : Stockage, Traitement Avancé & Kernel (81 à 100)", cmd: "lsblk", desc: "Lister les périphériques de stockage sous forme d'arbre.", ex: "lsblk", q: "Visualisez la hiérarchie complète de vos disques, partitions et points de montage." },
+    { lvl: "Niveau 5 : Stockage, Traitement Avancé & Kernel (81 à 100)", cmd: "blkid", desc: "Afficher les attributs des périphériques bloc (UUID).", ex: "blkid", q: "Trouvez l'identifiant UUID unique de votre partition système racine." },
+    { lvl: "Niveau 5 : Stockage, Traitement Avancé & Kernel (81 à 100)", cmd: "lvm (pvcreate / vgcreate / lvcreate)", desc: "Gestionnaire de volumes logiques LVM.", ex: "pvdisplay", q: "Affichez les volumes physiques (Physical Volumes) configurés sur votre serveur." },
+    { lvl: "Niveau 5 : Stockage, Traitement Avancé & Kernel (81 à 100)", cmd: "dmesg", desc: "Afficher les messages du tampon circulaire du noyau.", ex: "dmesg | grep -i error", q: "Inspectez les erreurs détectées au niveau matériel par le noyau pendant le boot." },
+    { lvl: "Niveau 5 : Stockage, Traitement Avancé & Kernel (81 à 100)", cmd: "lsmod", desc: "Afficher l'état des modules du noyau Linux.", ex: "lsmod", q: "Affichez tous les modules noyau actuellement chargés en mémoire." },
+    { lvl: "Niveau 5 : Stockage, Traitement Avancé & Kernel (81 à 100)", cmd: "modprobe", desc: "Ajouter ou supprimer des modules du noyau Linux.", ex: "modprobe dummy", q: "Chargez un module du noyau spécifique à la volée." },
+    { lvl: "Niveau 5 : Stockage, Traitement Avancé & Kernel (81 à 100)", cmd: "uname", desc: "Imprimer les informations système et Kernel.", ex: "uname -a", q: "Consultez la version exacte du noyau Linux tournant sur votre Debian." },
+    { lvl: "Niveau 5 : Stockage, Traitement Avancé & Kernel (81 à 100)", cmd: "lsof", desc: "Lister les fichiers ouverts par les processus.", ex: "lsof -i :80", q: "Identifiez quel processus utilise actuellement le port réseau 80." },
+    { lvl: "Niveau 5 : Stockage, Traitement Avancé & Kernel (81 à 100)", cmd: "strace", desc: "Intercepter et enregistrer les appels système.", ex: "strace -c ls", q: "Analysez les appels système générés lors de l'exécution de la commande 'ls'." },
+    { lvl: "Niveau 5 : Stockage, Traitement Avancé & Kernel (81 à 100)", cmd: "sysctl", desc: "Configurer les paramètres du noyau à chaud.", ex: "sysctl -a", q: "Activez le transfert de paquets IP (IP forwarding) au niveau Kernel." },
+    { lvl: "Niveau 5 : Stockage, Traitement Avancé & Kernel (81 à 100)", cmd: "screen / tmux", desc: "Multiplexeur de terminaux en arrière-plan.", ex: "tmux new -s session1", q: "Créez une session tmux persistante nommée 'prod' résistante aux déconnexions SSH." },
+    { lvl: "Niveau 5 : Stockage, Traitement Avancé & Kernel (81 à 100)", cmd: "env / export", desc: "Gérer les variables d'environnement.", ex: "export PATH=$PATH:/opt/bin", q: "Ajoutez un dossier spécifique à votre variable globale PATH." }
 ];
 
-function renderTP() {
-    const container = document.getElementById('commands-list');
-    let currentCat = "";
+function renderPage() {
+    const root = document.getElementById('tp-content');
+    let currentLvl = "";
 
-    commands.forEach((item, index) => {
-        if (item.cat !== currentCat) {
-            currentCat = item.cat;
-            const catHeader = document.createElement('h2');
-            catHeader.className = 'section-title';
-            catHeader.innerText = currentCat;
-            container.appendChild(catHeader);
+    dataset.forEach((item, index) => {
+        if (item.lvl !== currentLvl) {
+            currentLvl = item.lvl;
+            const lvlHeader = document.createElement('div');
+            lvlHeader.className = 'level-header';
+            lvlHeader.innerText = currentLvl;
+            root.appendChild(lvlHeader);
         }
 
         const card = document.createElement('div');
         card.className = 'command-card';
         card.innerHTML = `
-            <div class="command-title">${index + 1}. Commande : <code>${item.cmd}</code></div>
-            <p><strong>Description :</strong> ${item.desc}</p>
-            <div class="example-box">
-                <strong>Exemple d'utilisation :</strong><br>
-                <code>${item.ex}</code>
-            </div>
+            <div class="cmd-title">${index + 1}. Commande : ${item.cmd}</div>
+            <div class="cmd-desc">${item.desc}</div>
+            <div class="example-block">$ ${item.ex}</div>
             <div class="exercise-box">
-                <strong>Exercice Pratique :</strong> ${item.quest}
-                <br>
-                <button onclick="toggleSolution(${index})">Voir la solution</button>
-                <div id="sol-${index}" class="solution">Solution suggérée :\n$ ${item.ex}</div>
+                <strong>Exercice Pratique :</strong> ${item.q}<br>
+                <button onclick="toggleSol(${index})">Voir la commande solution</button>
+                <div id="sol-${index}" class="solution"># Solution minimale :\n${item.ex}</div>
             </div>
         `;
-        container.appendChild(card);
+        root.appendChild(card);
     });
 }
 
-function toggleSolution(index) {
-    const solDiv = document.getElementById(`sol-${index}`);
-    if (solDiv.style.display === "block") {
-        solDiv.style.display = "none";
-    } else {
-        solDiv.style.display = "block";
-    }
+function toggleSol(idx) {
+    const el = document.getElementById(`sol-${idx}`);
+    el.style.display = (el.style.display === "block") ? "none" : "block";
 }
 
-// Initialisation au chargement
-window.onload = renderTP;
+window.onload = renderPage;
 </script>
 
 </body>
