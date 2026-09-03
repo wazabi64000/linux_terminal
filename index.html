@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Masterclass Debian — 100 Commandes Progressives</title>
+    <title>Masterclass Debian & VirtualBox — Réseau & 100 Commandes</title>
     <style>
         :root {
             --debian-red: #A80030;
+            --vbox-blue: #0078d7;
             --bg: #0d1117;
             --card-bg: #161b22;
             --border: #30363d;
@@ -15,6 +16,7 @@
             --accent: #58a6ff;
             --code-bg: #010409;
             --code-color: #7ee787;
+            --warning: #d29922;
         }
 
         body {
@@ -41,6 +43,16 @@
         h1 { color: var(--text-bright); margin-bottom: 5px; }
         .subtitle { color: #8b949e; font-size: 1.1rem; }
 
+        .module-header {
+            background: linear-gradient(90deg, var(--vbox-blue), transparent);
+            color: white;
+            padding: 12px 18px;
+            border-radius: 6px;
+            margin-top: 40px;
+            font-size: 1.4rem;
+            font-weight: bold;
+        }
+
         .level-header {
             background: linear-gradient(90deg, var(--debian-red), transparent);
             color: white;
@@ -49,6 +61,14 @@
             margin-top: 40px;
             font-size: 1.3rem;
             font-weight: bold;
+        }
+
+        .vbox-card {
+            background: var(--card-bg);
+            border: 1px solid var(--vbox-blue);
+            border-radius: 6px;
+            padding: 20px;
+            margin-top: 20px;
         }
 
         .command-card {
@@ -64,30 +84,41 @@
             border-color: var(--accent);
         }
 
-        .cmd-title {
-            font-size: 1.1rem;
+        .title-box {
+            font-size: 1.2rem;
             color: var(--accent);
-            font-family: monospace;
             font-weight: bold;
+            margin-bottom: 8px;
         }
 
-        .cmd-desc { margin: 8px 0; }
+        .diagram {
+            background: var(--code-bg);
+            border: 1px dashed var(--border);
+            padding: 10px;
+            font-family: monospace;
+            color: var(--warning);
+            white-space: pre;
+            overflow-x: auto;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
 
         .example-block {
             background-color: var(--code-bg);
             border: 1px solid var(--border);
             border-radius: 4px;
-            padding: 8px 12px;
+            padding: 10px 12px;
             font-family: monospace;
             color: var(--code-color);
             font-size: 0.9rem;
             overflow-x: auto;
+            white-space: pre-wrap;
         }
 
         .exercise-box {
             background-color: rgba(56, 139, 253, 0.1);
             border-left: 3px solid var(--accent);
-            padding: 10px 15px;
+            padding: 12px 15px;
             margin-top: 10px;
             border-radius: 0 4px 4px 0;
         }
@@ -96,10 +127,10 @@
             background-color: #21262d;
             color: var(--text-bright);
             border: 1px solid var(--border);
-            padding: 5px 12px;
+            padding: 6px 14px;
             border-radius: 4px;
             cursor: pointer;
-            margin-top: 8px;
+            margin-top: 10px;
             font-size: 0.85rem;
         }
 
@@ -110,10 +141,11 @@
             background-color: var(--code-bg);
             color: var(--code-color);
             font-family: monospace;
-            padding: 8px 12px;
+            padding: 10px 12px;
             border-radius: 4px;
-            margin-top: 8px;
+            margin-top: 10px;
             border: 1px solid var(--border);
+            white-space: pre-wrap;
         }
     </style>
 </head>
@@ -121,10 +153,126 @@
 
 <div class="container">
     <header>
-        <h1>Linux Debian — Curriculum 100 Commandes</h1>
-        <div class="subtitle">Parcours d'apprentissage progressif (Niveau 1 Débutant à Niveau 5 Expert)</div>
+        <h1>Linux Debian & VirtualBox — Guide Complet</h1>
+        <div class="subtitle">Pratique des réseaux sous VirtualBox + 100 Commandes Progressives</div>
     </header>
 
+    <div class="module-header">🌐 Module VirtualBox : Architectures & Modes Réseau</div>
+
+    <div class="vbox-card">
+        <div class="title-box">1. Mode NAT (Network Address Translation) — Par défaut</div>
+        <p><strong>Principe :</strong> La VM est masquée derrière un routeur virtuel géré par VirtualBox. Elle peut accéder à Internet via la carte réseau de l'hôte, mais <u>l'hôte ne peut pas accéder directement à la VM</u> sans redirection de port.</p>
+        <div class="diagram">
+[ Internet ] <---> [ Carte Réseau Hôte ] <---> [ Router/NAT VirtualBox ] <---> [ VM Debian (10.0.2.15) ]
+                                                    (Port Forwarding)
+        </div>
+        <div class="exercise-box">
+            <strong>🏋️ Pratique NAT & Port Forwarding (Redirection de Port) :</strong><br>
+            Permettre un accès SSH depuis votre PC physique vers la VM en NAT.
+            <ol>
+                <li>Allez dans VirtualBox > Configuration de la VM > Réseau > Carte 1 > Mode : <strong>NAT</strong>.</li>
+                <li>Cliquez sur <strong>Avancé</strong> > <strong>Redirection de ports</strong>.</li>
+                <li>Ajoutez la règle suivante :
+                    <ul>
+                        <li>Nom : <code>SSH</code> | Protocole : <code>TCP</code></li>
+                        <li>IP Hôte : <code>127.0.0.1</code> | Port Hôte : <code>2222</code></li>
+                        <li>IP VM : <i>(laisser vide)</i> | Port VM : <code>22</code></li>
+                    </ul>
+                </li>
+            </ol>
+            <button onclick="toggleSol('vbox-nat')">Voir la commande de test</button>
+            <div id="sol-vbox-nat" class="solution"># Depuis le terminal de votre PC hôte (Windows/Mac/Linux) :
+ssh -p 2222 utilisateur@127.0.0.1
+
+# Côté VM Debian, vérifiez le service SSH :
+sudo systemctl status ssh</div>
+        </div>
+    </div>
+
+    <div class="vbox-card">
+        <div class="title-box">2. Mode Accès Pont (Bridged Adapter)</div>
+        <p><strong>Principe :</strong> La VM est directement reliée au commutateur (switch) de votre réseau physique. Elle obtient une adresse IP donnée par votre Box/Routeur domestique (ex: 192.168.1.X) au même titre que votre téléphone ou PC.</p>
+        <div class="diagram">
+[ Box Internet / Switch Réseau ]
+        ├── [ PC Hôte Physique ]   ---> IP: 192.168.1.20
+        └── [ VM Debian (Pont) ]   ---> IP: 192.168.1.35
+        </div>
+        <div class="exercise-box">
+            <strong>🏋️ Pratique Accès Pont :</strong><br>
+            Rendre la VM complètement accessible sur le réseau local.
+            <ol>
+                <li>Allez dans Configuration de la VM > Réseau > Carte 1 > Mode : <strong>Accès Pont</strong>.</li>
+                <li>Choisissez la carte réseau physique active de votre PC (Wi-Fi ou Ethernet).</li>
+                <li>Démarrez la VM Debian.</li>
+            </ol>
+            <button onclick="toggleSol('vbox-bridge')">Voir les commandes d'inspection</button>
+            <div id="sol-vbox-bridge" class="solution"># Dans la VM Debian, demandez une IP ou rafraîchissez :
+sudo dhclient -v eth0   # ou enp0s3
+
+# Affichez l'adresse IP obtenue dans le sous-réseau local :
+ip a
+
+# Depuis n'importe quel appareil de votre maison :
+ping 192.168.1.X (remplacer par l'IP de la VM)</div>
+        </div>
+    </div>
+
+    <div class="vbox-card">
+        <div class="title-box">3. Mode Réseau Interne (Internal Network)</div>
+        <p><strong>Principe :</strong> Crée un réseau isolé reliant exclusivement plusieurs VMs entre elles. <u>Aucun accès à l'hôte physique, et aucun accès à Internet</u>. C'est l'environnement idéal pour simuler un lab d'entreprise ou des attaques/défenses.</p>
+        <div class="diagram">
+[ PC Hôte ] (Aucun accès)
+    X
+[ Réseau Interne Virtuel : "intnet" ]
+    ├── [ VM 1 - Debian Serveur ] (ex: 10.10.10.1)
+    └── [ VM 2 - Debian Client ]  (ex: 10.10.10.2)
+        </div>
+        <div class="exercise-box">
+            <strong>🏋️ Pratique Réseau Interne (Lab 2 VMs) :</strong><br>
+            Lier 2 machines virtuelles Debian dans un réseau privé étanche.
+            <ol>
+                <li>Sur **VM1** & **VM2** : Configuration > Réseau > Carte 1 > Mode : **Réseau Interne** (Nom : `intnet`).</li>
+                <li>Démarrez les deux VMs. (Remarque : aucun serveur DHCP n'attribue d'IP automatiquement ici).</li>
+            </ol>
+            <button onclick="toggleSol('vbox-int')">Voir la configuration réseau manuelle</button>
+            <div id="sol-vbox-int" class="solution"># Sur la VM 1 (Serveur) :
+sudo ip addr add 10.10.10.1/24 dev enp0s3
+sudo ip link set enp0s3 up
+
+# Sur la VM 2 (Client) :
+sudo ip addr add 10.10.10.2/24 dev enp0s3
+sudo ip link set enp0s3 up
+
+# Test de communication (depuis VM2 vers VM1) :
+ping 10.10.10.1</div>
+        </div>
+    </div>
+
+    <div class="vbox-card">
+        <div class="title-box">4. Mode Réseau Privé Hôte (Host-Only)</div>
+        <p><strong>Principe :</strong> Crée un réseau virtuel contenant uniquement le PC Hôte et les VMs. Les VMs peuvent dialoguer avec l'hôte et entre elles, mais n'ont <u>pas d'accès à Internet</u>.</p>
+        <div class="diagram">
+[ Internet ] (Inaccessible)
+    X
+[ PC Hôte ] <=======> [ Carte Réseau Virtuelle Host-Only ] <=======> [ VMs Debian ]
+        </div>
+        <div class="exercise-box">
+            <strong>🏋️ Pratique Host-Only :</strong><br>
+            Créer un sous-réseau dédié à la gestion d'un parc de VMs sans passer par Internet.
+            <ol>
+                <li>Outils VirtualBox > Gestionnaire de réseau hôte > Créer une interface (ex: `vboxnet0`).</li>
+                <li>Attribuez à la VM la carte réseau en mode **Réseau privé hôte**.</li>
+            </ol>
+            <button onclick="toggleSol('vbox-hostonly')">Voir le test de communication</button>
+            <div id="sol-vbox-hostonly" class="solution"># Vérifiez l'IP attribuée par le serveur DHCP Host-Only de VirtualBox dans la VM :
+ip a
+
+# Ping de l'interface hôte depuis la VM :
+ping 192.168.56.1</div>
+        </div>
+    </div>
+
+    <div class="module-header">📜 Curriculum : 100 Commandes Progressives Debian</div>
     <div id="tp-content"></div>
 </div>
 
@@ -162,12 +310,12 @@ const dataset = [
     { lvl: "Niveau 2 : Lecture, Inspection & Permissions (21 à 40)", cmd: "which", desc: "Trouver l'emplacement d'un exécutable.", ex: "which python3", q: "Affichez le chemin absolu de la commande 'bash'." },
     { lvl: "Niveau 2 : Lecture, Inspection & Permissions (21 à 40)", cmd: "chmod", desc: "Modifier les autorisations.", ex: "chmod 755 script.sh", q: "Rendez le fichier /tmp/script.sh exécutable pour tout le monde." },
     { lvl: "Niveau 2 : Lecture, Inspection & Permissions (21 à 40)", cmd: "chown", desc: "Modifier propriétaire/groupe.", ex: "chown user:group file", q: "Attribuez la propriété du fichier /tmp/test à 'www-data'." },
-    { lvl: "Niveau 2 : Lecture, Inspection & Permissions (21 à 40)", cmd: "sudo", desc: "Exécuter une commande en superutilisateur.", ex: "sudo apt update", q: "Exécutez l'imprimante système d'administration via sudo." },
+    { lvl: "Niveau 2 : Lecture, Inspection & Permissions (21 à 40)", cmd: "sudo", desc: "Exécuter une commande en superutilisateur.", ex: "sudo apt update", q: "Exécutez la mise à jour système via sudo." },
     { lvl: "Niveau 2 : Lecture, Inspection & Permissions (21 à 40)", cmd: "su", desc: "Changer d'identité d'utilisateur.", ex: "su - root", q: "Basculez complètement sur la session de l'utilisateur root." },
     { lvl: "Niveau 2 : Lecture, Inspection & Permissions (21 à 40)", cmd: "df", desc: "Espace disque des fichiers systèmes.", ex: "df -h", q: "Consultez le pourcentage d'occupation de la partition principale en format lisible (Go)." },
     { lvl: "Niveau 2 : Lecture, Inspection & Permissions (21 à 40)", cmd: "du", desc: "Taille occupée par un dossier.", ex: "du -sh /var/log", q: "Affichez la taille globale occupée par le dossier /var/log." },
     { lvl: "Niveau 2 : Lecture, Inspection & Permissions (21 à 40)", cmd: "free", desc: "Utilisation de la RAM / Swap.", ex: "free -m", q: "Affichez la quantité de mémoire RAM disponible en Mo." },
-    { lvl: "Niveau 2 : Lecture, Inspection & Permissions (21 à 40)", cmd: "ln", desc: "Créer des liens symboliques ou durs.", ex: "ln -s /etc/nginx/sites-avail/app /etc/nginx/sites-en/", q: "Créez un lien symbolique de /etc/issue vers /tmp/issue_link." },
+    { lvl: "Niveau 2 : Lecture, Inspection & Permissions (21 à 40)", cmd: "ln", desc: "Créer des liens symboliques ou durs.", ex: "ln -s /etc/issue /tmp/issue_link", q: "Créez un lien symbolique de /etc/issue vers /tmp/issue_link." },
     { lvl: "Niveau 2 : Lecture, Inspection & Permissions (21 à 40)", cmd: "tar", desc: "Archiver des fichiers.", ex: "tar -czvf archive.tar.gz /folder", q: "Compresser le dossier /etc au format tar.gz dans /tmp." },
     { lvl: "Niveau 2 : Lecture, Inspection & Permissions (21 à 40)", cmd: "gzip / gunzip", desc: "Compresser / Décompresser des fichiers.", ex: "gzip fichier.txt", q: "Compresser directement le fichier /tmp/test.txt." },
     { lvl: "Niveau 2 : Lecture, Inspection & Permissions (21 à 40)", cmd: "diff", desc: "Comparer deux fichiers ligne par ligne.", ex: "diff f1.txt f2.txt", q: "Comparez le contenu du fichier f1 avec le fichier f2." },
@@ -179,7 +327,7 @@ const dataset = [
     { lvl: "Niveau 3 : Administration Système & Gestion des Paquets (41 à 60)", cmd: "apt upgrade", desc: "Mettre à jour les logiciels installés.", ex: "apt upgrade -y", q: "Installez toutes les mises à jour de sécurité disponibles." },
     { lvl: "Niveau 3 : Administration Système & Gestion des Paquets (41 à 60)", cmd: "apt install", desc: "Installer un paquet.", ex: "apt install htop", q: "Installez l'outil de surveillance 'htop'." },
     { lvl: "Niveau 3 : Administration Système & Gestion des Paquets (41 à 60)", cmd: "apt remove / purge", desc: "Désinstaller un paquet.", ex: "apt purge nginx", q: "Supprimez le logiciel 'nginx' avec l'ensemble de ses fichiers de configuration." },
-    { lvl: "Niveau 3 : Administration Système & Gestion des Paquets (41 à 60)", cmd: "dpkg", desc: "Gestionnaire de paquets bas niveau.", ex: "dpkg -i paquet.deb", q: "Inspectez la liste des paquets installés contenant le mot 'ssh'." },
+    { lvl: "Niveau 3 : Administration Système & Gestion des Paquets (41 à 60)", cmd: "dpkg", desc: "Gestionnaire de paquets bas niveau.", ex: "dpkg -l | grep ssh", q: "Inspectez la liste des paquets installés contenant le mot 'ssh'." },
     { lvl: "Niveau 3 : Administration Système & Gestion des Paquets (41 à 60)", cmd: "ps", desc: "Rapporter l'état des processus actuels.", ex: "ps aux", q: "Affichez la liste exhaustive de tous les processus du système." },
     { lvl: "Niveau 3 : Administration Système & Gestion des Paquets (41 à 60)", cmd: "top", desc: "Affichage dynamique des processus système.", ex: "top", q: "Ouvrez l'outil de monitoring standard des processus." },
     { lvl: "Niveau 3 : Administration Système & Gestion des Paquets (41 à 60)", cmd: "htop", desc: "Alternative moderne et interactive à top.", ex: "htop", q: "Lancez htop pour surveiller visuellement la mémoire et les cœurs CPU." },
@@ -257,12 +405,12 @@ function renderPage() {
         const card = document.createElement('div');
         card.className = 'command-card';
         card.innerHTML = `
-            <div class="cmd-title">${index + 1}. Commande : ${item.cmd}</div>
-            <div class="cmd-desc">${item.desc}</div>
+            <div class="title-box">${index + 1}. Commande : ${item.cmd}</div>
+            <div>${item.desc}</div>
             <div class="example-block">$ ${item.ex}</div>
             <div class="exercise-box">
                 <strong>Exercice Pratique :</strong> ${item.q}<br>
-                <button onclick="toggleSol(${index})">Voir la commande solution</button>
+                <button onclick="toggleSol('${index}')">Voir la solution</button>
                 <div id="sol-${index}" class="solution"># Solution minimale :\n${item.ex}</div>
             </div>
         `;
@@ -270,9 +418,11 @@ function renderPage() {
     });
 }
 
-function toggleSol(idx) {
-    const el = document.getElementById(`sol-${idx}`);
-    el.style.display = (el.style.display === "block") ? "none" : "block";
+function toggleSol(id) {
+    const el = document.getElementById(`sol-${id}`);
+    if (el) {
+        el.style.display = (el.style.display === "block") ? "none" : "block";
+    }
 }
 
 window.onload = renderPage;
